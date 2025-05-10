@@ -9,6 +9,9 @@ dist/
 web-build/
 expo-env.d.ts
 
+#test results
+/Images
+
 # Native
 *.orig.*
 *.jks
@@ -38,6 +41,7 @@ yarn-error.*
 
 
 # config
+config
 config/config.js
 
 # @generated expo-cli sync-8d4afeec25ea8a192358fae2f8e2fc766bdce4ec
