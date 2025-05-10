@@ -42,6 +42,7 @@ export default function App() {
         />
         
         {/* Category Screens */}
+        <Stack.Screen name="FloraScreen" component={FloraScreen} options={{ title: 'Identify Flora' }} />
 
         {/* Result Screen */}
       </Stack.Navigator>
