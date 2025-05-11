@@ -86,7 +86,9 @@ export async function identifyWithGoogleVision(imageUri) {
       result.confidence = bestMatch.score;
     }
 
-    
+    // Fetch Wikipedia only if a valid name is detected
+    const wikiData = result.name !== "Unknown" ? await fetchWikipedia(result.name) : {};
+    return { ...result, ...wikiData };
   } catch (error) {
     console.error("Google Vision API Error:", error?.response?.data || error.message);
 
