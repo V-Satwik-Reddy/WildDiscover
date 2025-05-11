@@ -58,7 +58,16 @@ export async function identifyPlant(imageUri) {
     const plantType = plantData.species?.vegetationType || "Unknown";
     const confidence = (plantData.score * 100).toFixed(2) || 0;
     
-    
+    const wikiData = await fetchWikipedia(scientificName);
+
+    return {
+      name: scientificName,
+      confidence,
+      scientificName,
+      family,
+      plantType,
+      ...wikiData, // Wikipedia description & link
+    };
   } catch (error) {
     console.error("PlantNet API Error:", error.message);
     if (error.response) {
