@@ -1,5 +1,7 @@
 import { identifyWithGoogleVision } from './googleVisionAPI.js';
 import { identifyPlant } from './plantNetAPI.js';
+import { identifyAnimal, fetchAnimalDetails } from './animalAPI.js'; // Import fetchAnimalDetails
+import { identifyWithPollinations } from './pollinationsAPI.js'; // Import Pollinations API
 
 /**
  * Detects an object (flora, fauna, or landmark) using the appropriate API.
