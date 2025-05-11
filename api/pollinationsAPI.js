@@ -1,6 +1,7 @@
 import axios from "axios";
 import FormData from "form-data";
 import * as FileSystem from "expo-file-system";
+import fetchWikipedia from "./wikipediaAPI.js"; // Import fetchWikipedia
 
 /**
  * Identifies a bird or insect using Pollinations.ai API.
@@ -73,7 +74,15 @@ export async function identifyWithPollinations(imageUri) {
 
     const data = response.data;
 
-    
+    // Fetch Wikipedia data
+    const wikiData = await fetchWikipedia(data.name);
+
+    return {
+      name: data.name || "Unknown",
+      confidence: 0.9, // Default confidence
+      description: data.description || "No description available.",
+      ...wikiData // Wikipedia description & link
+    };
   } catch (error) {
     console.error("Pollinations.ai API Error:", error.message);
     return { name: "Unknown", confidence: 0, message: "Identification failed. Try a clearer image." };
