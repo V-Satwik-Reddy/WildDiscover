@@ -4,6 +4,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
+import { detectObject } from "../api/detectionAPI.js"; // Import the detection API
 
 export default function FloraScreen() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -37,7 +38,20 @@ export default function FloraScreen() {
     }
   };
 
-  
+  // Function to handle image analysis
+  const analyzeImage = async () => {
+    if (!selectedImage) {
+      Alert.alert("No Image Selected", "Please choose an image first!");
+      return;
+    }
+
+    try {
+      const result = await detectObject(selectedImage, "flora");
+      navigation.navigate("ResultScreen", { result: { ...result, imageUri: selectedImage }, type: "flora" });
+    } catch (error) {
+      Alert.alert("Error", "Failed to analyze image. Please try again.");
+    }
+  };
 
   return (
     <View style={[styles.container, theme === "dark" && styles.darkMode]}>
