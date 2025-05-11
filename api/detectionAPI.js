@@ -1,4 +1,4 @@
-
+import { identifyWithGoogleVision } from './googleVisionAPI.js';
 import { identifyPlant } from './plantNetAPI.js';
 
 /**
