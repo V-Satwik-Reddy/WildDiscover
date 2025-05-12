@@ -25,7 +25,6 @@ export default function FloraScreen() {
     }
   };
 
-  // Function to capture an image using camera
   const takePhoto = async () => {
     let result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
