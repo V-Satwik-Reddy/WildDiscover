@@ -4,13 +4,59 @@ import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
+import { detectObject } from "../api/detectionAPI.js"; // Import the detection API
 
 export default function LandmarkScreen() {
   const [selectedImage, setSelectedImage] = useState(null);
   const theme = useColorScheme(); // Detect system theme
   const navigation = useNavigation(); // Get navigation object
 
- 
+  // Function to pick an image from gallery
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled && result.assets?.length > 0) { // Fix property name
+      setSelectedImage(result.assets[0].uri);
+    } else {
+      Alert.alert("Image Selection Failed", "Please select a valid image.");
+    }
+  };
+
+  // Function to capture an image using camera
+  const takePhoto = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled && result.assets?.length > 0) { // Fix property name
+      setSelectedImage(result.assets[0].uri);
+    } else {
+      Alert.alert("Image Selection Failed", "Please select a valid image.");
+    }
+  };
+
+  // Function to handle image analysis
+  const analyzeImage = async () => {
+    if (!selectedImage) {
+      Alert.alert("No Image Selected", "Please choose an image first!");
+      return;
+    }
+
+    try {
+      const result = await detectObject(selectedImage, "landmark");
+      navigation.navigate("ResultScreen", { result: { ...result, imageUri: selectedImage }, type: "landmark" });
+    } catch (error) {
+      Alert.alert("Error", "Failed to analyze image. Please try again.");
+    }
+  };
+
   return (
     <View style={[styles.container, theme === "dark" && styles.darkMode]}>
       <StatusBar style={theme === "dark" ? "light" : "dark"} />
