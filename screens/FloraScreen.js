@@ -174,13 +174,5 @@ const styles = StyleSheet.create({
   },
   analyzeEnabled: {
     backgroundColor: "#2BA84A",
-  },
-  analyzeDisabled: {
-    backgroundColor: "#A5D6A7",
-  },
-  analyzeText: {
-    fontSize: 16,
-    color: "white",
-    fontWeight: "bold",
-  },
+  }
 });
