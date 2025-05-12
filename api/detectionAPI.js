@@ -63,6 +63,12 @@ export async function detectObject(imageUri, type) {
 
           return animalResult;
         }
+
+      case "landmark":
+        return await identifyWithGoogleVision(imageUri);
+
+      default:
+        throw new Error("Unknown detection type.");
     }
   } catch (error) {
     console.error(`detectObject Error (${type}):`, error.message || "Unknown error");
