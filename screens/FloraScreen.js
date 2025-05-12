@@ -25,6 +25,7 @@ export default function FloraScreen() {
     }
   };
 
+  // Function to capture an image using camera
   const takePhoto = async () => {
     let result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
@@ -174,5 +175,13 @@ const styles = StyleSheet.create({
   },
   analyzeEnabled: {
     backgroundColor: "#2BA84A",
-  }
+  },
+  analyzeDisabled: {
+    backgroundColor: "#A5D6A7",
+  },
+  analyzeText: {
+    fontSize: 16,
+    color: "white",
+    fontWeight: "bold",
+  },
 });
