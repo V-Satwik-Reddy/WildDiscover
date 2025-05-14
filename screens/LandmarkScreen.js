@@ -4,12 +4,12 @@ import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
-import { detectObject } from "../api/detectionAPI.js"; // Import the detection API
+import { detectObject } from "../api/detectionAPI.js"; 
 
 export default function LandmarkScreen() {
   const [selectedImage, setSelectedImage] = useState(null);
   const theme = useColorScheme(); // Detect system theme
-  const navigation = useNavigation(); // Get navigation object
+  const navigation = useNavigation(); 
 
   // Function to pick an image from gallery
   const pickImage = async () => {
