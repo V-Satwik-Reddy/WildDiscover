@@ -6,7 +6,7 @@ import { StatusBar } from "expo-status-bar";
 import { useFonts, Poppins_700Bold, Poppins_400Regular } from "@expo-google-fonts/poppins";
 import * as SplashScreen from 'expo-splash-screen';
 
-// Prevent splash screen from auto hiding
+
 SplashScreen.preventAutoHideAsync();
 
 const categories = [
