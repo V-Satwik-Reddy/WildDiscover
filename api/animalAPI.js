@@ -7,9 +7,9 @@ import { identifyWithPollinations } from "./pollinationsAPI.js"; // Import Polli
 
 /**
  * Identifies an animal using API Ninjas' Animal API & fetches Wikipedia data.
- * @param {string} imageUri - Image URI.
- * @param {object} visionResult - Result from Google Vision API.
- * @returns {object} - Formatted response for ResultScreen.js.
+ * @param {string} imageUri 
+ * @param {object} visionResult 
+ * @returns {object} 
  */
 export async function identifyAnimal(imageUri, visionResult) {
   if (!imageUri) {
