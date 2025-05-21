@@ -46,6 +46,7 @@ export default function App() {
         <Stack.Screen name="FaunaScreen" component={FaunaScreen} options={{ title: 'Identify Fauna' }} />
         <Stack.Screen name="LandmarkScreen" component={LandmarkScreen} options={{ title: 'Identify Landmark' }} />
         {/* Result Screen */}
+      <Stack.Screen name="ResultScreen" component={ResultScreen} options={{ title: 'Identification Result' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
