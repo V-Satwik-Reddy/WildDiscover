@@ -43,7 +43,8 @@ export default function App() {
         
         {/* Category Screens */}
         <Stack.Screen name="FloraScreen" component={FloraScreen} options={{ title: 'Identify Flora' }} />
-
+        <Stack.Screen name="FaunaScreen" component={FaunaScreen} options={{ title: 'Identify Fauna' }} />
+        <Stack.Screen name="LandmarkScreen" component={LandmarkScreen} options={{ title: 'Identify Landmark' }} />
         {/* Result Screen */}
       </Stack.Navigator>
     </NavigationContainer>
