@@ -66,7 +66,7 @@ export default function History() {
     </View>
   </ScrollView>
 );
-
+}
 
 const styles = StyleSheet.create({
   container: {
