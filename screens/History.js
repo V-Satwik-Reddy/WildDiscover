@@ -52,21 +52,21 @@ export default function History() {
   }
 
   return (
-    <ScrollView contentContainerStyle={[styles.container, theme === 'dark' && styles.darkMode]}>
-      <Text style={[styles.title, theme === 'dark' && styles.darkText']}>🕒 History</Text>
-      <View style={styles.imageGrid}>
-        {links.map((uri, index) => (
-          <Image
-            key={index}
-            source={{ uri }}
-            style={styles.historyImage}
-            resizeMode="cover"
-          />
-        ))}
-      </View>
-    </ScrollView>
-  );
-}
+  <ScrollView contentContainerStyle={[styles.container, theme === 'dark' && styles.darkMode]}>
+    <Text style={[styles.title, theme === 'dark' && styles.darkText]}>🕒 History</Text>
+    <View style={styles.imageGrid}>
+      {links.map((uri, index) => (
+        <Image
+          key={index}
+          source={{ uri }}
+          style={styles.historyImage}
+          resizeMode="cover"
+        />
+      ))}
+    </View>
+  </ScrollView>
+);
+
 
 const styles = StyleSheet.create({
   container: {
