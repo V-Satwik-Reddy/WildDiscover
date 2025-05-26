@@ -39,7 +39,6 @@ yarn-error.*
 *.tsbuildinfo
 
 
-
 # config
 config
 config/config.js
