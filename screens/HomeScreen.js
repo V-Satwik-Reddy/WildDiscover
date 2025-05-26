@@ -1,11 +1,11 @@
 import React, { useEffect, useCallback } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, useColorScheme } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { StatusBar } from "expo-status-bar";
 import { useFonts, Poppins_700Bold, Poppins_400Regular } from "@expo-google-fonts/poppins";
 import * as SplashScreen from 'expo-splash-screen';
-
+import { useAppMode } from '../context/AppModeContext';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -17,7 +17,9 @@ const categories = [
 
 export default function HomeScreen() {
   const navigation = useNavigation();
-  const theme = useColorScheme(); // Detect system theme
+  const theme = useColorScheme();
+  const { isOffline, setIsOffline } = useAppMode();
+
   const [fontsLoaded] = useFonts({
     Poppins_700Bold,
     Poppins_400Regular
@@ -30,13 +32,19 @@ export default function HomeScreen() {
   }, [fontsLoaded]);
 
   if (!fontsLoaded) {
-    return null; // Prevent rendering before fonts load
+    return null;
   }
 
   return (
     <View style={[styles.container, theme === "dark" && styles.darkMode]} onLayout={onLayoutRootView}>
       <StatusBar style={theme === "dark" ? "light" : "dark"} />
-      <Text style={[styles.title, theme === "dark" && styles.darkText]}>🌿 WildDiscover 🫎</Text>
+      <View style={styles.headerRow}>
+        <Text style={[styles.title, theme === "dark" && styles.darkText]}>🌿 WildDiscover 🫎</Text>
+        <TouchableOpacity onPress={() => setIsOffline(prev => !prev)}>
+          <Ionicons name={isOffline ? "cloud-offline" : "cloud-outline"} size={24} color={theme === "dark" ? "white" : "black"} />
+        </TouchableOpacity>
+      </View>
+
       <Text style={[styles.subHeader, theme === "dark" && styles.darkSubHeader]}>
         Identify and explore wildlife & landmarks around you!
       </Text>
@@ -46,7 +54,7 @@ export default function HomeScreen() {
           <TouchableOpacity
             key={category.name}
             style={[styles.card, { backgroundColor: category.color, elevation: 5 }]}
-            onPress={() => navigation.navigate(category.route)}
+            onPress={() => navigation.navigate(isOffline ? `${category.name}ScreenOffline` : category.route)}
             activeOpacity={0.7}
           >
             <FontAwesome5 name={category.icon} size={40} color="black" />
@@ -67,6 +75,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#E8F5E9",
     paddingHorizontal: 20,
+  },
+  headerRow: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 10,
   },
   darkMode: {
     backgroundColor: "#121212",
