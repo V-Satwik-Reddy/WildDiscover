@@ -18,6 +18,11 @@ expo-env.d.ts
 *.key
 *.mobileprovision
 
+
+/api/offlineAnimalAPI.js
+/api/offlineLandmarkAPI.js
+/api/offlinePlantAPI.js
+/assets/model
 # Metro
 .metro-health-check*
 

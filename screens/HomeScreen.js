@@ -6,6 +6,7 @@ import { StatusBar } from "expo-status-bar";
 import { useFonts, Poppins_700Bold, Poppins_400Regular } from "@expo-google-fonts/poppins";
 import * as SplashScreen from 'expo-splash-screen';
 import { useAppMode } from '../context/AppModeContext';
+import { Alert } from 'react-native';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -40,9 +41,26 @@ export default function HomeScreen() {
       <StatusBar style={theme === "dark" ? "light" : "dark"} />
       <View style={styles.headerRow}>
         <Text style={[styles.title, theme === "dark" && styles.darkText]}>🌿 WildDiscover 🫎</Text>
-        <TouchableOpacity onPress={() => setIsOffline(prev => !prev)}>
-          <Ionicons name={isOffline ? "cloud-offline" : "cloud-outline"} size={24} color={theme === "dark" ? "white" : "black"} />
-        </TouchableOpacity>
+        <TouchableOpacity
+  onPress={() => {
+    setIsOffline(prev => {
+      const newState = !prev;
+      Alert.alert(
+        'Mode Switched',
+        newState ? '🛰️ You are now in Offline Mode.' : '🌐 Switched back to Online Mode.',
+        [{ text: 'OK' }]
+      );
+      return newState;
+    });
+  }}
+>
+  <Ionicons
+    name={isOffline ? 'cloud-offline' : 'cloud-outline'}
+    size={24}
+    color={theme === 'dark' ? 'white' : 'black'}
+  />
+</TouchableOpacity>
+
       </View>
 
       <Text style={[styles.subHeader, theme === "dark" && styles.darkSubHeader]}>
