@@ -4,11 +4,11 @@
     "slug": "WildDiscover",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "C:/Users/KOTA/Downloads/WildDiscover/assets/WildDiscover icon.png",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/WildDiscover icon.png",
+      "image": "./assets/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -28,6 +28,6 @@
     "plugins": [
       "expo-font"
     ],
-    "developmentClient": false
+    "developmentClient": {}
   }
 }

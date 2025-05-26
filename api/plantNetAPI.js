@@ -1,7 +1,6 @@
 import axios from "axios";
 import { PLANT_NET_API_KEY } from "../config/config.js";
 import fetchWikipedia from "./wikipediaAPI.js";
-import FormData from "form-data";
 import * as FileSystem from "expo-file-system";
 
 /**

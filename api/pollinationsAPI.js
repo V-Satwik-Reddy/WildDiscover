@@ -1,5 +1,4 @@
 import axios from "axios";
-import FormData from "form-data";
 import * as FileSystem from "expo-file-system";
 import fetchWikipedia from "./wikipediaAPI.js"; // Import fetchWikipedia
 
