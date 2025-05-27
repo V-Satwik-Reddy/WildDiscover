@@ -1,6 +1,9 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, useColorScheme, Linking, ScrollView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
+import { uploadImageToS3 } from '../Upload.js'; // you'll create this
+import * as SecureStore from 'expo-secure-store'; // to get phone number from storage
 
 export default function ResultScreen({ route }) {
   const { result, type } = route.params;
@@ -8,6 +11,30 @@ export default function ResultScreen({ route }) {
 
   // Log the received data
   console.log("ResultScreen Data:", result);
+  useEffect(() => {
+  const uploadHistory = async () => { 
+
+    try {
+      const phone = await SecureStore.getItemAsync('phone');
+      if (!phone) {
+        console.warn('No phone number found in SecureStore');
+        return;
+      }
+
+      const uploadResult = await uploadImageToS3(result.imageUri, phone, result.name || 'Unknown');
+
+      if (!uploadResult.success) {
+        console.error('S3 upload failed:', uploadResult.error);
+      } else {
+        console.log('Image uploaded to S3:', uploadResult.url);
+      }
+    } catch (err) {
+      console.error('Upload error:', err);
+    }
+  };
+
+  uploadHistory();
+}, []);
 
   // Function to open location in Google Maps
   const openInGoogleMaps = (latitude, longitude) => {
