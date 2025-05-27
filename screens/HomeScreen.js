@@ -7,6 +7,9 @@ import { useFonts, Poppins_700Bold, Poppins_400Regular } from "@expo-google-font
 import * as SplashScreen from 'expo-splash-screen';
 import { useAppMode } from '../context/AppModeContext';
 import { Alert } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
+import { Modal, TextInput, Button } from 'react-native';
+import { useState } from 'react';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -17,6 +20,28 @@ const categories = [
 ];
 
 export default function HomeScreen() {
+  const [phone, setPhone] = useState('');
+const [isPhoneModalVisible, setPhoneModalVisible] = useState(false);
+
+useEffect(() => {
+  const checkPhone = async () => {
+    const savedPhone = await SecureStore.getItemAsync('phone');
+    if (!savedPhone) {
+      setPhoneModalVisible(true);
+    }
+  };
+  checkPhone();
+}, []);
+
+const handleSavePhone = async () => {
+  if (phone.length >= 10) {
+    await SecureStore.setItemAsync('phone', phone);
+    setPhoneModalVisible(false);
+  } else {
+    Alert.alert('Invalid Number', 'Please enter a valid phone number.');
+  }
+};
+
   const navigation = useNavigation();
   const theme = useColorScheme();
   const { isOffline, setIsOffline } = useAppMode();
@@ -82,6 +107,42 @@ export default function HomeScreen() {
       </View>
 
       <Text style={[styles.footerText, theme === "dark" && styles.darkFooter]}>📸 Capture or Upload to Identify</Text>
+      <Modal visible={isPhoneModalVisible} transparent animationType="slide">
+  <View style={{
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }}>
+    <View style={{
+      backgroundColor: 'white',
+      padding: 20,
+      borderRadius: 10,
+      width: '80%',
+      alignItems: 'center',
+    }}>
+      <Text style={{ fontSize: 18, marginBottom: 10, fontWeight: 'bold' }}>
+        Enter Your Phone Number
+      </Text>
+      <TextInput
+        placeholder="e.g. 9876543210"
+        keyboardType="phone-pad"
+        style={{
+          borderWidth: 1,
+          borderColor: '#ccc',
+          borderRadius: 5,
+          width: '100%',
+          padding: 10,
+          marginBottom: 15,
+        }}
+        value={phone}
+        onChangeText={setPhone}
+      />
+      <Button title="Save" onPress={handleSavePhone} />
+    </View>
+  </View>
+</Modal>
+
     </View>
   );
 }

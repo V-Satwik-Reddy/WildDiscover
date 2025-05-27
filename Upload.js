@@ -1,4 +1,5 @@
 import { RNS3 } from 'react-native-aws3';
+import * as FileSystem from 'expo-file-system';
 import { ACCESS_KEY_ID, SECRET_ACCESS_KEY, BUCKET_NAME } from './config/config.js';
 
 export async function uploadImageToS3(imageUri, userPhone, tag = 'Unknown') {
@@ -7,12 +8,18 @@ export async function uploadImageToS3(imageUri, userPhone, tag = 'Unknown') {
   const safeTag = tag.toLowerCase().replace(/[^a-z0-9]/gi, '_');
   const fileName = `${timestamp}_${safeTag}.jpg`;
 
-  const file = {
-    uri: imageUri,
-    name: fileName,
-    type: 'image/jpeg',
-  };
+  try {
+    // Get proper file URI
+    const fileInfo = await FileSystem.getInfoAsync(imageUri);
+    if (!fileInfo.exists) throw new Error('Image file does not exist');
 
+    const file = {
+      uri: fileInfo.uri,
+      name: fileName,
+      type: 'image/jpeg',
+    };
+
+    
   const options = {
     keyPrefix: `${userPhone}/`,
     bucket: BUCKET_NAME,
@@ -21,12 +28,17 @@ export async function uploadImageToS3(imageUri, userPhone, tag = 'Unknown') {
     secretKey: SECRET_ACCESS_KEY,
     successActionStatus: 201,
   };
+console.log('File Info:', fileInfo);
 
-  try {
     const response = await RNS3.put(file, options);
-    if (response.status !== 201) {
-      throw new Error('Upload failed');
-    }
+
+console.log('Upload Response:', response); // 👈 ADD THIS
+
+if (response.status !== 201) {
+  console.error('Full S3 error:', response.body); // 👈 ADD THIS TOO
+  throw new Error('Upload failed');
+}
+
 
     return { success: true, url: response.body.postResponse.location };
   } catch (err) {

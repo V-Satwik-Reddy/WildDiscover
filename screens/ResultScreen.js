@@ -1,40 +1,59 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, useColorScheme, Linking, ScrollView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import * as SecureStore from 'expo-secure-store';
+import * as FileSystem from 'expo-file-system';
+import { Platform } from 'react-native';
 import { useEffect } from 'react';
-import { uploadImageToS3 } from '../Upload.js'; // you'll create this
-import * as SecureStore from 'expo-secure-store'; // to get phone number from storage
-
 export default function ResultScreen({ route }) {
+  useEffect(() => {
+  const uploadToBackend = async () => {
+    try {
+      const phone = await SecureStore.getItemAsync("phone");
+      if (!phone || !result?.imageUri || !result?.name) {
+        console.warn("Missing phone, image or tag");
+        return;
+      }
+
+      const uriParts = result.imageUri.split(".");
+      const fileType = uriParts[uriParts.length - 1];
+
+      const file = {
+        uri: result.imageUri,
+        name: `image.${fileType}`,
+        type: `image/${fileType}`,
+      };
+
+      const formData = new FormData();
+      formData.append('phone', phone);
+      formData.append('tag', result.name);
+      formData.append('image', file);
+      const res = await fetch("http://192.168.0.104:3000/upload", {
+        method: "POST",
+        body: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      const responseJson = await res.json();
+      if (responseJson.success) {
+        console.log("Upload successful:", responseJson.imageUrl);
+      } else {
+        console.warn("Upload failed:", responseJson.error);
+      }
+    } catch (err) {
+      console.error("Error uploading to backend:", err);
+    }
+  };
+
+  uploadToBackend();
+}, []);
   const { result, type } = route.params;
   const theme = useColorScheme(); // Detect system theme
 
   // Log the received data
   console.log("ResultScreen Data:", result);
-  useEffect(() => {
-  const uploadHistory = async () => { 
-
-    try {
-      const phone = await SecureStore.getItemAsync('phone');
-      if (!phone) {
-        console.warn('No phone number found in SecureStore');
-        return;
-      }
-
-      const uploadResult = await uploadImageToS3(result.imageUri, phone, result.name || 'Unknown');
-
-      if (!uploadResult.success) {
-        console.error('S3 upload failed:', uploadResult.error);
-      } else {
-        console.log('Image uploaded to S3:', uploadResult.url);
-      }
-    } catch (err) {
-      console.error('Upload error:', err);
-    }
-  };
-
-  uploadHistory();
-}, []);
 
   // Function to open location in Google Maps
   const openInGoogleMaps = (latitude, longitude) => {
