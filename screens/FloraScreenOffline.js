@@ -4,7 +4,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
-import { identifyPlantOffline } from '../api/offlinePlantAPI';
+import { classifyImage } from '../predictor';
 
 export default function FloraScreen() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -40,18 +40,35 @@ export default function FloraScreen() {
 
   // Function to handle image analysis
   const analyzeImage = async () => {
-    if (!selectedImage) {
-      Alert.alert("No Image Selected", "Please choose an image first!");
+  if (!selectedImage) {
+    Alert.alert("No Image Selected", "Please choose an image first!");
+    return;
+  }
+
+  try {
+    const predictions = await classifyImage(selectedImage);
+
+    if (!predictions || predictions.length === 0) {
+      Alert.alert("No Prediction", "Could not identify this image.");
       return;
     }
 
-    try {
-      const result = await identifyPlantOffline(imageUri);
-      navigation.navigate("ResultScreen", { result: { ...result, imageUri: selectedImage }, type: "flora" });
-    } catch (error) {
-      Alert.alert("Error", "Failed to analyze image. Please try again.");
-    }
-  };
+    const topPrediction = predictions[0];
+    const result = {
+      name: topPrediction.className,
+      confidence: (topPrediction.probability * 100).toFixed(2),
+      description: "Offline model prediction based on general species recognition.",
+      imageUri: selectedImage,
+    };
+
+    navigation.navigate("ResultScreen", { result, type: "flora" });
+
+  } catch (error) {
+    console.error("Offline prediction error:", error);
+    Alert.alert("Error", "Failed to analyze image. Please try again.");
+  }
+};
+
 
   return (
     <View style={[styles.container, theme === "dark" && styles.darkMode]}>

@@ -3,7 +3,7 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/
 import { createStackNavigator } from '@react-navigation/stack';
 import { useColorScheme, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-
+import { initializeTensorflow } from './tfSetuptemp';
 // Import context
 import { AppModeProvider, useAppMode } from './context/AppModeContext';
 
@@ -22,6 +22,9 @@ import LandmarkScreenOffline from './screens/LandmarkScreenOffline';
 const Stack = createStackNavigator();
 
 function AppNavigator() {
+  useEffect(() => {
+    initializeTensorflow();
+  }, []);
   const theme = useColorScheme();
   const { isOffline } = useAppMode();
 
