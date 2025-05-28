@@ -3,10 +3,7 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/
 import { createStackNavigator } from '@react-navigation/stack';
 import { useColorScheme, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { AppState } from 'react-native';
-import { useEffect, useRef } from 'react';
-import * as Location from 'expo-location';
-import { Alert } from 'react-native';
+
 // Import context
 import { AppModeProvider, useAppMode } from './context/AppModeContext';
 
@@ -25,47 +22,6 @@ import LandmarkScreenOffline from './screens/LandmarkScreenOffline';
 const Stack = createStackNavigator();
 
 function AppNavigator() {
-  const appState = useRef(AppState.currentState);
-const [hasPrompted, setHasPrompted] = useState(false);
-
-useEffect(() => {
-  const subscription = AppState.addEventListener('change', nextAppState => {
-    if (
-      appState.current.match(/inactive|background/) &&
-      nextAppState === 'active' &&
-      !hasPrompted
-    ) {
-      appState.current = nextAppState;
-      showLocationPrompt();
-      setHasPrompted(true);
-    }
-  });
-
-  return () => {
-    subscription.remove();
-  };
-}, []);
-  
-const showLocationPrompt = async () => {
-  const { status } = await Location.requestForegroundPermissionsAsync();
-  if (status !== 'granted') return;
-
-  const location = await Location.getCurrentPositionAsync({});
-  const { latitude, longitude } = location.coords;
-
-  const nearbySpecies = await fetchSeasonalSpecies(latitude, longitude); // your own logic
-
-  if (nearbySpecies && nearbySpecies.length > 0) {
-    Alert.alert(
-      '🌿 Local Discoveries',
-      `Keep an eye out for: ${nearbySpecies.join(', ')}`,
-      [
-        { text: 'View More', onPress: () => navigation.navigate('SuggestionScreen') },
-        { text: 'Got it', style: 'cancel' }
-      ]
-    );
-  }
-};
   const theme = useColorScheme();
   const { isOffline } = useAppMode();
 
