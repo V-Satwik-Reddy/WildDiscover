@@ -6,7 +6,7 @@ import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import { classifyImage } from '../predictor';
 
-export default function FloraScreen() {
+export default function FloraScreenOffline() {
   const [selectedImage, setSelectedImage] = useState(null);
   const theme = useColorScheme(); // Detect system theme
   const navigation = useNavigation(); // Get navigation object

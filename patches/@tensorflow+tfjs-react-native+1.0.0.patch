@@ -1,0 +1,12 @@
+diff --git a/node_modules/@tensorflow/tfjs-react-native/dist/index.js b/node_modules/@tensorflow/tfjs-react-native/dist/index.js
+index 15bbaba..74ca6d2 100644
+--- a/node_modules/@tensorflow/tfjs-react-native/dist/index.js
++++ b/node_modules/@tensorflow/tfjs-react-native/dist/index.js
+@@ -16,7 +16,6 @@
+  */
+ import './platform_react_native';
+ export { asyncStorageIO } from './async_storage_io';
+-export { bundleResourceIO } from './bundle_resource_io';
+ export { decodeJpeg } from './decode_image';
+ export { fetch } from './platform_react_native';
+ export { version } from './version';

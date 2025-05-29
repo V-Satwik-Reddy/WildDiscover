@@ -3,7 +3,7 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/
 import { createStackNavigator } from '@react-navigation/stack';
 import { useColorScheme, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { initializeTensorflow } from './tfSetuptemp';
+import { initializeTensorflow } from './tfSetup';
 // Import context
 import { AppModeProvider, useAppMode } from './context/AppModeContext';
 

@@ -3,19 +3,23 @@
   "license": "0BSD",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "start": "expo start --dev-client",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web"
-  },
+    "web": "expo start --web",
+    "postinstall": "patch-package"
+}
+,
   "dependencies": {
     "@expo-google-fonts/poppins": "^0.2.3",
     "@expo/metro-runtime": "~5.0.4",
+    "@react-native-async-storage/async-storage": "^1.17.11",
     "@react-navigation/native": "^7.0.15",
     "@react-navigation/stack": "^7.1.2",
     "@tensorflow-models/mobilenet": "^2.1.1",
+    "@tensorflow/tfjs": "^4.22.0",
+    "@tensorflow/tfjs-react-native": "^1.0.0",
     "aws-sdk": "^2.1692.0",
     "axios": "^1.8.3",
     "expo": "^53.0.0",

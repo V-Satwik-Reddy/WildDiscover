@@ -34,7 +34,7 @@ export default function History({ visible, onClose }) {
         }
         setPhone(storedPhone);
 
-        const response = await fetch(`http://192.168.0.104:3000/user/history?phone=${storedPhone}`);
+        const response = await fetch(`http://192.168.0.105:3000/user/history?phone=${storedPhone}`);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
 
