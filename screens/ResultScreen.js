@@ -28,7 +28,7 @@ export default function ResultScreen({ route }) {
       formData.append('phone', phone);
       formData.append('tag', result.name);
       formData.append('image', file);
-      const res = await fetch("http://192.168.0.104:3000/upload", {
+      const res = await fetch("http://192.168.0.101:3000/upload", {
         method: "POST",
         body: formData,
         headers: {
