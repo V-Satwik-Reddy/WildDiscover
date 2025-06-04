@@ -35,7 +35,6 @@
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.10.0",
-    "react-native-tflite": "^0.0.2",
     "react-native-unimodules": "^0.15.0",
     "react-native-vector-icons": "^10.2.0",
     "react-native-web": "^0.20.0"
