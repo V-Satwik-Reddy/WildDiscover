@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import { detectObject } from "../api/detectionAPI.js"; 
-
+import { validateLabelWithGemini } from "../api/geminiAPI.js";
 export default function LandmarkScreen() {
   const [selectedImage, setSelectedImage] = useState(null);
   const theme = useColorScheme(); // Detect system theme
@@ -48,10 +48,27 @@ export default function LandmarkScreen() {
       Alert.alert("No Image Selected", "Please choose an image first!");
       return;
     }
-
+  
     try {
       const result = await detectObject(selectedImage, "landmark");
-      navigation.navigate("ResultScreen", { result: { ...result, imageUri: selectedImage }, type: "landmark" });
+      const isValid = await validateLabelWithGemini(result.description, "landmark");
+      // console.log("Detection Result:", result);
+  
+      if (isValid) {
+    navigation.navigate("ResultScreen", {
+      result: { ...result,
+  name: result.description?.slice(0, 20) || '', 
+  imageUri: selectedImage
+ },
+      type: "fauna"
+    });
+  } else {
+    navigation.navigate("ResultScreen", {
+      result: { tag: "Unrecognized", name: "Unrecognized", imageUri: selectedImage },
+      type: "fauna"
+    });
+  }
+  
     } catch (error) {
       Alert.alert("Error", "Failed to analyze image. Please try again.");
     }

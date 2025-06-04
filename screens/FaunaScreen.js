@@ -51,11 +51,13 @@ export default function FaunaScreen() {
 
   try {
     const result = await detectObject(selectedImage, "fauna");
-    const isValid = await validateLabelWithGemini(result.tag, "fauna");
-
+    const isValid = await validateLabelWithGemini(result.description, "fauna");
     if (isValid) {
   navigation.navigate("ResultScreen", {
-    result: { ...result, name: result.tag, imageUri: selectedImage },
+    result: { ...result,
+  name: result.description?.slice(0, 20) || '', 
+  imageUri: selectedImage
+ },
     type: "fauna"
   });
 } else {
