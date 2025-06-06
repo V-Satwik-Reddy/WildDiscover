@@ -6,7 +6,7 @@ import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import { detectObject } from "../api/detectionAPI.js"; // Import the detection API
 import { validateLabelWithGemini } from "../api/geminiAPI.js"; // Import Gemini validation API
-export default function FaunaScreen() {
+export default function FaunaScreenOffline() {
   const [selectedImage, setSelectedImage] = useState(null);
   const theme = useColorScheme(); // Detect system theme
   const navigation = useNavigation(); // Get navigation object

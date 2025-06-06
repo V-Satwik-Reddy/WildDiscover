@@ -6,7 +6,7 @@ import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import { detectObject } from "../api/detectionAPI.js"; 
 import { validateLabelWithGemini } from "../api/geminiAPI.js";
-export default function LandmarkScreen() {
+export default function LandmarkScreenOffline() {
   const [selectedImage, setSelectedImage] = useState(null);
   const theme = useColorScheme(); // Detect system theme
   const navigation = useNavigation(); 
