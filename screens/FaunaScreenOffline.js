@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import { detectObject } from "../api/detectionAPI.js"; // Import the detection API
-
+import { validateLabelWithGemini } from "../api/geminiAPI.js"; // Import Gemini validation API
 export default function FaunaScreen() {
   const [selectedImage, setSelectedImage] = useState(null);
   const theme = useColorScheme(); // Detect system theme
@@ -44,18 +44,36 @@ export default function FaunaScreen() {
 
   // Function to handle image analysis
   const analyzeImage = async () => {
-    if (!selectedImage) {
-      Alert.alert("No Image Selected", "Please choose an image first!");
-      return;
-    }
+  if (!selectedImage) {
+    Alert.alert("No Image Selected", "Please choose an image first!");
+    return;
+  }
 
-    try {
-      const result = await detectObject(selectedImage, "fauna");
-      navigation.navigate("ResultScreen", { result: { ...result, imageUri: selectedImage }, type: "fauna" });
-    } catch (error) {
-      Alert.alert("Error", "Failed to analyze image. Please try again.");
-    }
-  };
+  try {
+    const result = await detectObject(selectedImage, "fauna");
+    const isValid = await validateLabelWithGemini(result.description, "fauna");
+    if (isValid) {
+      setTimeout(() => {
+        }, 3000); 
+  navigation.navigate("ResultScreen", {
+    result: { ...result,
+  name: result.description?.slice(0, 20) || '', 
+  imageUri: selectedImage
+ },
+    type: "fauna"
+  });
+} else {
+  navigation.navigate("ResultScreen", {
+    result: { tag: "Unrecognized", name: "Unrecognized", imageUri: selectedImage },
+    type: "fauna"
+  });
+}
+
+  } catch (error) {
+    Alert.alert("Error", "Failed to analyze image. Please try again.");
+  }
+};
+
 
   return (
     <View style={[styles.container, theme === "dark" && styles.darkMode]}>
