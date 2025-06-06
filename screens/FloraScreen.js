@@ -54,12 +54,12 @@ export default function FloraScreen() {
   name: result.description?.slice(0, 20) || '', 
   imageUri: selectedImage
  },
-      type: "fauna"
+      type: "flora"
     });
   } else {
     navigation.navigate("ResultScreen", {
       result: { tag: "Unrecognized", name: "Unrecognized", imageUri: selectedImage },
-      type: "fauna"
+      type: "flora"
     });
   }
   

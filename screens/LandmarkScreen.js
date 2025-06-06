@@ -60,12 +60,12 @@ export default function LandmarkScreen() {
   name: result.description?.slice(0, 20) || '', 
   imageUri: selectedImage
  },
-      type: "fauna"
+      type: "landmark"
     });
   } else {
     navigation.navigate("ResultScreen", {
       result: { tag: "Unrecognized", name: "Unrecognized", imageUri: selectedImage },
-      type: "fauna"
+      type: "landmark"
     });
   }
   
