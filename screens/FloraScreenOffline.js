@@ -49,6 +49,7 @@ export default function FloraScreenOffline() {
       const result = await detectObject(selectedImage, "flora");
       const isValid = await validateLabelWithGemini(result.description, "flora");
       if (isValid) {
+        console.log("done");
   // Wait 6 seconds before navigating
   setTimeout(() => {
     navigation.navigate("ResultScreen", {

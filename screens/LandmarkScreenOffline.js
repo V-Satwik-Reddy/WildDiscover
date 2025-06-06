@@ -55,6 +55,8 @@ export default function LandmarkScreenOffline() {
       // console.log("Detection Result:", result);
   
       if (isValid) {
+        
+        console.log("done");
         setTimeout(() => {
         }, 3000); 
     navigation.navigate("ResultScreen", {
@@ -80,7 +82,7 @@ export default function LandmarkScreenOffline() {
     <View style={[styles.container, theme === "dark" && styles.darkMode]}>
       <StatusBar style={theme === "dark" ? "light" : "dark"} />
 
-      <Text style={[styles.title, theme === "dark" && styles.darkText]}>🏛 Identify Landmarks</Text>
+      <Text style={[styles.title, theme === "dark" && styles.darkText]}>🏛 Identify Landmarks Offline</Text>
       <Text style={[styles.subHeader, theme === "dark" && styles.darkSubHeader]}>
         Capture or upload an image to identify famous landmarks.
       </Text>
