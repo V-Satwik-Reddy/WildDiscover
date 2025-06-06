@@ -49,21 +49,29 @@ export default function FloraScreenOffline() {
       const result = await detectObject(selectedImage, "flora");
       const isValid = await validateLabelWithGemini(result.description, "flora");
       if (isValid) {
-        setTimeout(() => {
-        }, 3000); 
+  // Wait 6 seconds before navigating
+  setTimeout(() => {
     navigation.navigate("ResultScreen", {
-      result: { ...result,
-  name: result.description?.slice(0, 20) || '', 
-  imageUri: selectedImage
- },
-      type: "flora"
+      result: {
+        ...result,
+        name: result.description?.slice(0, 20) || "",
+        imageUri: selectedImage,
+      },
+      type: "flora",
     });
-  } else {
-    navigation.navigate("ResultScreen", {
-      result: { tag: "Unrecognized", name: "Unrecognized", imageUri: selectedImage },
-      type: "flora"
-    });
-  }
+  }, 6000);
+} else {
+  // Navigate immediately if not valid
+  navigation.navigate("ResultScreen", {
+    result: {
+      tag: "Unrecognized",
+      name: "Unrecognized",
+      imageUri: selectedImage,
+    },
+    type: "flora",
+  });
+}
+
   
     } catch (error) {
       console.log("Error analyzing image:", error);
@@ -75,7 +83,7 @@ export default function FloraScreenOffline() {
     <View style={[styles.container, theme === "dark" && styles.darkMode]}>
       <StatusBar style={theme === "dark" ? "light" : "dark"} />
 
-      <Text style={[styles.title, theme === "dark" && styles.darkText]}>🌱 Identify Flora</Text>
+      <Text style={[styles.title, theme === "dark" && styles.darkText]}>🌱 Identify Flora Offline</Text>
       <Text style={[styles.subHeader, theme === "dark" && styles.darkSubHeader]}>
         Capture or upload an image to identify plants around you.
       </Text>

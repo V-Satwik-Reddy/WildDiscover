@@ -49,19 +49,29 @@ export default function FloraScreen() {
       const result = await detectObject(selectedImage, "flora");
       const isValid = await validateLabelWithGemini(result.description, "flora");
       if (isValid) {
+  // Wait 6 seconds before navigating
+  setTimeout(() => {
     navigation.navigate("ResultScreen", {
-      result: { ...result,
-  name: result.description?.slice(0, 20) || '', 
-  imageUri: selectedImage
- },
-      type: "flora"
+      result: {
+        ...result,
+        name: result.description?.slice(0, 20) || "",
+        imageUri: selectedImage,
+      },
+      type: "flora",
     });
-  } else {
-    navigation.navigate("ResultScreen", {
-      result: { tag: "Unrecognized", name: "Unrecognized", imageUri: selectedImage },
-      type: "flora"
-    });
-  }
+  }, 6000);
+} else {
+  // Navigate immediately if not valid
+  navigation.navigate("ResultScreen", {
+    result: {
+      tag: "Unrecognized",
+      name: "Unrecognized",
+      imageUri: selectedImage,
+    },
+    type: "flora",
+  });
+}
+
   
     } catch (error) {
       console.log("Error analyzing image:", error);

@@ -112,13 +112,15 @@ export default function HomeScreen() {
             key={category.name}
             style={[styles.card, { backgroundColor: category.color, elevation: 5 }]}
             onPress={() =>
-              navigation.navigate(isOffline ? `${category.name}ScreenOffline` : category.route)
-            }
+   navigation.navigate(`${category.name}Screen`)
+}
             activeOpacity={0.7}
           >
             <FontAwesome5 name={category.icon} size={40} color="black" />
-            <Text style={[styles.cardText, theme === "dark" && styles.darkText]}>{category.name}</Text>
-          </TouchableOpacity>
+  <Text style={[styles.cardText, theme === "dark" && styles.darkText]}>
+    {category.name}
+  </Text>
+</TouchableOpacity>
         ))}
 
         <TouchableOpacity
