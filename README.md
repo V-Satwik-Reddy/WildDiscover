@@ -29,7 +29,7 @@ Follow these steps to set up and run the project locally:
 
 3. **Android/iOS Emulator or Physical Device**: Ensure you have an emulator set up or a physical device with the Expo Go app installed.
 
-### Steps
+## Steps
 
 1. **Clone the Repository**:
 
