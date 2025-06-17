@@ -158,7 +158,7 @@ npm install <library-name>
   - Wikipedia API
 - **Axios**: For making HTTP requests.
 
----
+----
 
 ## 📝 License
 
