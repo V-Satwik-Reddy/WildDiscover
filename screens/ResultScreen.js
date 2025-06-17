@@ -145,7 +145,7 @@ export default function ResultScreen({ route }) {
           </View>
         )}
 
-        {/* 📍 Landmark Section */}
+        {/* Landmark Section */}
         {type === "landmark" && (
           <View style={styles.detailsContainer}>
             <Text style={styles.sectionTitle}>📍 Landmark Details</Text>
